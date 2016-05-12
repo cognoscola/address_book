@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.guillermo.addressbookapplication.R;
 import com.guillermo.addressbookapplication.activities.ContactDetailActivity;
 import com.guillermo.addressbookapplication.activities.ContactListActivity;
+import com.guillermo.addressbookapplication.network.ContactData;
 import com.guillermo.addressbookapplication.network.ContactsRetriever;
 
 /**
@@ -28,9 +29,9 @@ public class ContactDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The dummy firstName this fragment is presenting.
      */
-    private ContactsRetriever.ContactData mItem;
+    private ContactData mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,15 +45,15 @@ public class ContactDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
+            // Load the dummy firstName specified by the fragment
             // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = ContactsRetriever.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            // to load firstName from a firstName provider.
+            mItem = ContactsRetriever.contacts_map.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(mItem.getData().getUser().getName().getFirst());
             }
         }
     }
@@ -62,9 +63,9 @@ public class ContactDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.contact_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the dummy firstName as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.contact_detail)).setText(mItem.details);
+            ((TextView) rootView.findViewById(R.id.contact_detail)).setText(mItem.getData().getUser().getEmail());
         }
 
         return rootView;

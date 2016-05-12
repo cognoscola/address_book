@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.andexert.library.RippleView;
 import com.guillermo.addressbookapplication.R;
 import com.guillermo.addressbookapplication.activities.ContactDetailActivity;
-import com.guillermo.addressbookapplication.network.ContactsRetriever;
 import com.guillermo.addressbookapplication.fragments.ContactDetailFragment;
+import com.guillermo.addressbookapplication.network.ContactData;
+import com.guillermo.addressbookapplication.utils.StringUtils;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ import java.util.List;
 public class ContactRecyclerViewAdapter
         extends RecyclerView.Adapter<ContactRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ContactsRetriever.ContactData> mValues;
+    private final List<ContactData> mValues;
     private Context context;
 
     /**
@@ -33,11 +35,10 @@ public class ContactRecyclerViewAdapter
      */
     private boolean mTwoPane;
 
-    public ContactRecyclerViewAdapter(List<ContactsRetriever.ContactData> items, Context context) {
+    public ContactRecyclerViewAdapter(List<ContactData> items, Context context) {
         mValues = items;
         this.context = context;
         mTwoPane = false;
-
     }
 
     /** getters/setters */
@@ -53,24 +54,29 @@ public class ContactRecyclerViewAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-//        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        String fullName =
+                StringUtils.capitalizeFirst(mValues.get(position).getData().getUser().getName().getFirst()) +
+                " " +
+                StringUtils.capitalizeFirst(mValues.get(position).getData().getUser().getName().getLast());
+
+        holder.mContentView.setText(fullName);
+
+        ((RippleView)holder.mView).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
-            public void onClick(View v) {
+            public void onComplete(RippleView rippleView) {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(ContactDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    arguments.putString(ContactDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
                     ContactDetailFragment fragment = new ContactDetailFragment();
                     fragment.setArguments(arguments);
                     ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction()
                             .replace(R.id.contact_detail_container, fragment)
                             .commit();
                 } else {
-                    Context context = v.getContext();
+                    Context context = rippleView.getContext();
                     Intent intent = new Intent(context, ContactDetailActivity.class);
-                    intent.putExtra(ContactDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    intent.putExtra(ContactDetailFragment.ARG_ITEM_ID, holder.mItem.getId());
 
                     context.startActivity(intent);
                 }
@@ -87,13 +93,19 @@ public class ContactRecyclerViewAdapter
         public final View mView;
         public final ImageView mIdView;
         public final TextView mContentView;
-        public ContactsRetriever.ContactData mItem;
+        public ContactData mItem;
+        public final RippleView rippleView;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (ImageView) view.findViewById(R.id.iv_profile_pic);
             mContentView = (TextView) view.findViewById(R.id.content);
+            rippleView = (RippleView) view.findViewById(R.id.ripple_view);
+            rippleView.setRippleAlpha(150);
+            rippleView.setRippleDuration(150);
+            rippleView.setZooming(true);
+            rippleView.setZoomDuration(150);
         }
 
         @Override

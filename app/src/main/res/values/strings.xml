@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">AddressBookApplication</string>
+    <string name="app_name">Address Book</string>
+    <string name="main_activity">My Address Book</string>
     <string name="title_contact_detail">Contact Detail</string>
 </resources>

@@ -1,12 +1,10 @@
 package com.guillermo.addressbookapplication.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 
 import com.guillermo.addressbookapplication.adapters.ContactRecyclerViewAdapter;
 import com.guillermo.addressbookapplication.R;
@@ -37,15 +35,7 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        toolbar.setBackgroundColor(Color.rgb(255,102,0));
 
         recyclerView = (RecyclerView) findViewById(R.id.contact_list);
         assert recyclerView != null;
@@ -66,14 +56,8 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
     private void setupRecyclerView() {
 
         //fetch data,
-        listAdapter = new ContactRecyclerViewAdapter(ContactsRetriever.ITEMS, this);
-
-
         ContactsRetriever retriever = new ContactsRetriever(this);
-        retriever.fetchData(1);
-
-
-//        onDataReceived();
+        retriever.fetchDataAsynchronously(10);
     }
 
     /**
@@ -81,6 +65,18 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
      */
     @Override
     public void onDataReceived() {
+
+        listAdapter = new ContactRecyclerViewAdapter(ContactsRetriever.contacts, this);
         recyclerView.setAdapter(listAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        listAdapter = null;
+        recyclerView.setAdapter(null);
+        recyclerView = null;
+        ContactsRetriever.dispose();
     }
 }
