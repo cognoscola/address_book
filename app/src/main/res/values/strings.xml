@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Address Book Application</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">AddressBookApplication</string>
+    <string name="title_contact_detail">Contact Detail</string>
 </resources>
