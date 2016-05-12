@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.andexert.library.RippleView;
 import com.guillermo.addressbookapplication.R;
 import com.guillermo.addressbookapplication.activities.ContactDetailActivity;
+import com.guillermo.addressbookapplication.app.App;
 import com.guillermo.addressbookapplication.fragments.ContactDetailFragment;
+import com.guillermo.addressbookapplication.libraries.ImageLoader.ImageLoader;
 import com.guillermo.addressbookapplication.network.ContactData;
 import com.guillermo.addressbookapplication.utils.StringUtils;
 
@@ -28,6 +30,7 @@ public class ContactRecyclerViewAdapter
 
     private final List<ContactData> mValues;
     private Context context;
+    private ImageLoader imageLoader;
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -39,6 +42,7 @@ public class ContactRecyclerViewAdapter
         mValues = items;
         this.context = context;
         mTwoPane = false;
+        imageLoader = ((App) context.getApplicationContext()).getImageLoader();
     }
 
     /** getters/setters */
@@ -61,6 +65,12 @@ public class ContactRecyclerViewAdapter
                 StringUtils.capitalizeFirst(mValues.get(position).getData().getUser().getName().getLast());
 
         holder.mContentView.setText(fullName);
+
+        //set the image
+        imageLoader.DisplayImage(
+                mValues.get(position).getData().getUser().getPicture().getThumbnail(),
+                holder.mThumbnailView
+        );
 
         ((RippleView)holder.mView).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
@@ -91,7 +101,7 @@ public class ContactRecyclerViewAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final ImageView mIdView;
+        public final ImageView mThumbnailView;
         public final TextView mContentView;
         public ContactData mItem;
         public final RippleView rippleView;
@@ -99,7 +109,7 @@ public class ContactRecyclerViewAdapter
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (ImageView) view.findViewById(R.id.iv_profile_pic);
+            mThumbnailView = (ImageView) view.findViewById(R.id.iv_profile_pic);
             mContentView = (TextView) view.findViewById(R.id.content);
             rippleView = (RippleView) view.findViewById(R.id.ripple_view);
             rippleView.setRippleAlpha(150);
