@@ -1,9 +1,291 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/contact_detail"
-    style="?android:attr/textAppearanceLarge"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context=".fragments.ContactDetailFragment" />
+    android:padding="5dip"
+    >
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/layout_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@drawable/ic_account_circle_black_24dp"
+                android:layout_gravity="top|center_horizontal"
+                />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_full_name"
+            android:layout_weight="8"
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:text="Jon Doe"
+            android:gravity="left|center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0.0dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"   />
+
+        <LinearLayout
+            android:layout_width="0.0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="8">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FF999999"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@drawable/ic_location_on_black_24dp"
+                android:layout_gravity="top|center_horizontal"
+                />
+
+        </FrameLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="8">
+
+            <TextView
+                android:id="@+id/tv_adress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="20dp"
+                android:text="123 Fake Street"
+                android:gravity="left|center_vertical"/>
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="20dp"
+                android:text="Toronto"
+                android:gravity="left|center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/tv_province"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="20dp"
+                android:text="Ontario,Canada"
+                android:gravity="left|center_vertical"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0.0dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"   />
+
+        <LinearLayout
+            android:layout_width="0.0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="8">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FF999999"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@drawable/ic_call_black_24dp"
+                android:layout_gravity="top|center_horizontal"
+                />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="8">
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="20dp"
+                android:text="289 389 3932"
+                android:gravity="left|center_vertical"/>
+
+            <TextView
+                android:id="@+id/tv_cell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(201) 203 3043"
+                android:gravity="left|center_vertical"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0.0dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"   />
+
+        <LinearLayout
+            android:layout_width="0.0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="8">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FF999999"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:src="@drawable/ic_email_black_24dp"
+                android:layout_gravity="center"
+                />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0.0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="8">
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="20dp"
+                android:text="1234@fakeserver.com"
+                android:gravity="left|center_vertical"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
+
+    <!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/contact_detail"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:textIsSelectable="true"
+        tools:context=".fragments.ContactDetailFragment" />-->

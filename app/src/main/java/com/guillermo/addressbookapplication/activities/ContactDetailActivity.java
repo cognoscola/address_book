@@ -22,22 +22,17 @@ import com.guillermo.addressbookapplication.R;
  */
 public class ContactDetailActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        setSupportActionBar(toolbar);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            toolbar.setBackgroundColor(Color.argb(0,255, 102, 0));
+        }
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -60,7 +55,7 @@ public class ContactDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(ContactDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(ContactDetailFragment.ARG_ITEM_ID));
-            ContactDetailFragment fragment = new ContactDetailFragment();
+            ContactDetailFragment fragment = ContactDetailFragment.newInstance();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.contact_detail_container, fragment)
@@ -78,7 +73,8 @@ public class ContactDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, ContactListActivity.class));
+            onBackPressed();
+//            navigateUpTo(new Intent(this, ContactListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

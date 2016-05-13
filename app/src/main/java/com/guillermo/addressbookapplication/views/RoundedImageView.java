@@ -16,6 +16,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 
+/**
+ * Created by alvaregd on 12/05/16.
+ * Displays an Image in a Circle and also adds a white border
+ */
 public class RoundedImageView extends ImageView {
 
     private final static String Tag = "RoundedImageView ";

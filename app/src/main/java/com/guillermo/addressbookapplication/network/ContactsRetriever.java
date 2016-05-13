@@ -17,7 +17,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Used to retrieve dummy contact data from the network
+ * Helper class to help use Retrieve data from the network
  */
 public class ContactsRetriever {
     private static final String TAG = ContactsRetriever.class.getName();
@@ -28,43 +28,20 @@ public class ContactsRetriever {
     public static final List<ContactData> contacts = new ArrayList<ContactData>();
 
     /**
-     * A map of sample (Contact) items, by ID.
+     * A map of sample (Contact) items, by ID so that we can fetch from other activites
      */
     public static final Map<String, ContactData> contacts_map = new HashMap<String, ContactData>();
 
     private ContactRetrieverListener listener;
 
-    private static final int COUNT = 25;
-
-/*    static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }
-    }*/
-
     public ContactsRetriever(ContactRetrieverListener listener) {
         this.listener = listener;
     }
 
-    private static void addItem(ContactData data) {
+    public static void addItem(ContactData data) {
         contacts.add(data);
         contacts_map.put(data.getId(), data);
     }
-
-  /*  private static ContactData createDummyItem(int position) {
-        return new ContactData(String.valueOf(position), "Item " + position, makeDetails(position));
-    }*/
-
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
-    }
-
 
     /**
      * Asynchronously fetch contacts from the network
@@ -79,8 +56,7 @@ public class ContactsRetriever {
             @Override
             public void success(UserRandomResponse userRandomResponse, Response response) {
 
-                Log.d(TAG, "status: " + response.getStatus());
-
+                //Store result data in our Lists/MAps
                 for (int i = 0; i < userRandomResponse.getResults().size(); i++) {
 
                     Result result = userRandomResponse.getResults().get(i);
@@ -91,18 +67,22 @@ public class ContactsRetriever {
                             ));
                 }
 
+                //notify activity that we are done fetching
                 listener.onDataReceived();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Log.d(TAG, "failure: ",error.getCause());
+                //notify activity that we are done fetching
                 listener.onDataReceived();
             }
         });
     }
 
-
+    /**
+     * Housekeeping
+     */
     public static void dispose(){
         contacts.clear();
         contacts_map.clear();

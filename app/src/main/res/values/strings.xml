@@ -2,4 +2,19 @@
     <string name="app_name">Address Book</string>
     <string name="main_activity">My Address Book</string>
     <string name="title_contact_detail">Contact Detail</string>
+
+    <string name="label_volume_recent">Most Recent:</string>
+    <string name="label_volume_highest">Highest Record:</string>
+    <string name="label_volume_growth">Average Growth Per session:</string>
+
+    <string name="label_weight_recent">Most Recent Lifted:</string>
+    <string name="label_weight_highest">Highest Weight Lifted:</string>
+    <string name="label_weight_growth">Average Growth Per session: </string>
+
+    <string name="label_rep_recent">Most Recent Rep Count: </string>
+
+    <string name="label_rep_total">Total Reps Performed:</string>
+    <string name="label_set_total">Total Sets Performed:</string>
+    <string name="label_session_total">Total Sessions Performed:</string>
+    <string name="label_weight_total">Total Weight Lifted:</string>
 </resources>

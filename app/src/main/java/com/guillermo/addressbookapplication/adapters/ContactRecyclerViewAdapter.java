@@ -24,12 +24,18 @@ import java.util.List;
 
 /**
  * Created by alvaregd on 12/05/16.
+ * Populates our list of fetched Contacts
  */
 public class ContactRecyclerViewAdapter
         extends RecyclerView.Adapter<ContactRecyclerViewAdapter.ViewHolder> {
 
+    /** List containing our data **/
     private final List<ContactData> mValues;
+
+
     private Context context;
+
+
     private ImageLoader imageLoader;
 
     /**
@@ -99,6 +105,7 @@ public class ContactRecyclerViewAdapter
         return mValues.size();
     }
 
+    /**  Manage our Recycler View's ViewHolder */
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final ImageView mThumbnailView;
@@ -111,6 +118,8 @@ public class ContactRecyclerViewAdapter
             mView = view;
             mThumbnailView = (ImageView) view.findViewById(R.id.iv_profile_pic);
             mContentView = (TextView) view.findViewById(R.id.content);
+
+            //configure our ripple effect
             rippleView = (RippleView) view.findViewById(R.id.ripple_view);
             rippleView.setRippleAlpha(150);
             rippleView.setRippleDuration(150);

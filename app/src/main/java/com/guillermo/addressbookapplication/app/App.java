@@ -9,14 +9,15 @@ import com.guillermo.addressbookapplication.libraries.ImageLoader.ImageLoader;
  */
 public class App extends Application {
 
-    ImageLoader imageLoader;
+    /**This object needs to be treated as a singleton **/
+    private static ImageLoader imageLoader;
 
     @Override
     public void onCreate() {
         super.onCreate();
     }
 
-    public ImageLoader getImageLoader(){
+    public  ImageLoader getImageLoader(){
 
         if (imageLoader == null) {
             imageLoader = new ImageLoader(this);

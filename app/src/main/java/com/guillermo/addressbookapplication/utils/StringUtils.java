@@ -2,6 +2,7 @@ package com.guillermo.addressbookapplication.utils;
 
 /**
  * Created by alvaregd on 12/05/16.
+ * Helper class to help us manage strings
  */
 public class StringUtils {
 
