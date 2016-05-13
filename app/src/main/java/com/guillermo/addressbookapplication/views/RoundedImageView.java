@@ -1,6 +1,5 @@
 package com.guillermo.addressbookapplication.views;
 
-//Taken from http://stackoverflow.com/questions/16208365/create-a-circular-image-view-in-android
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,10 +15,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 
-/**
- * Created by alvaregd on 12/05/16.
- * Displays an Image in a Circle and also adds a white border
- */
+//Taken from http://stackoverflow.com/questions/16208365/create-a-circular-image-view-in-android
+//By StackOverFlow User: Priya
+//Modified by alvaregd on 13/05/2016
+
 public class RoundedImageView extends ImageView {
 
     private final static String Tag = "RoundedImageView ";

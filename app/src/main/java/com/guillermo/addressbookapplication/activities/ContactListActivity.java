@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,16 +39,21 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
     /** The view containing recyclable layouts for displaying our data */
     private RecyclerView recyclerView;
 
+    /** to show to the user when the app is busy */
+    private ProgressBar pbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
 
+        //get the activity UI
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.contact_list);
+        pbar = (ProgressBar) findViewById(R.id.progress);
 
 
+        //Configure toolbar
         if (toolbar != null) {
 
             setSupportActionBar(toolbar);
@@ -54,6 +61,7 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
             toolbar.setBackgroundColor(Color.rgb(255,102,0));
         }
 
+        //configure the recycler view
         if (recyclerView != null) {
 
             if (savedInstanceState == null) {
@@ -71,13 +79,13 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
     }
 
     /**
-     * Populate the list of Contacts
+     * Start fetching data from the network
      */
     private void setupRecyclerView() {
 
         //fetch data,
         ContactsRetriever retriever = new ContactsRetriever(this);
-        retriever.fetchDataAsynchronously(1);
+        retriever.fetchDataAsynchronously(13);
     }
 
     /**
@@ -86,20 +94,35 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
     @Override
     public void onDataReceived() {
 
+        pbar.setVisibility(View.GONE);
         listAdapter = new ContactRecyclerViewAdapter(ContactsRetriever.contacts, this);
-        recyclerView.setAdapter(listAdapter);
+
+        if (recyclerView != null) {
+            recyclerView.setAdapter(listAdapter);
+        }
     }
 
+    /**
+     * House keeping. Data fetched from the network is stored in a static variables and
+     * must be cleared when we exit the app.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
         listAdapter = null;
-        recyclerView.setAdapter(null);
+        if (recyclerView != null) {
+            recyclerView.setAdapter(null);
+        }
         recyclerView = null;
         ContactsRetriever.dispose();
     }
 
+    /**
+     * Saves fetched data when we rotate the screen or when the activity goes into the background
+     * due to another activity being forced to the forground.
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -110,7 +133,10 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
         outState.putString(DATA_KEY, data);
     }
 
-
+    /**
+     * Restored saved data
+     * @param savedInstanceState the bundle containing our data
+     */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -126,6 +152,7 @@ public class ContactListActivity extends AppCompatActivity implements ContactRet
             }
         }
 
+        //Repopulate the listview
         onDataReceived();
 
     }

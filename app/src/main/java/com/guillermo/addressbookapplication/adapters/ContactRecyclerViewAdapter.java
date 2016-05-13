@@ -32,10 +32,10 @@ public class ContactRecyclerViewAdapter
     /** List containing our data **/
     private final List<ContactData> mValues;
 
-
+    /** the activity context **/
     private Context context;
 
-
+    /** helper object that helps use retrieve images from the network on an on-demand basis */
     private ImageLoader imageLoader;
 
     /**
@@ -43,6 +43,7 @@ public class ContactRecyclerViewAdapter
      * device.
      */
     private boolean mTwoPane;
+
 
     public ContactRecyclerViewAdapter(List<ContactData> items, Context context) {
         mValues = items;
@@ -61,10 +62,13 @@ public class ContactRecyclerViewAdapter
         return new ViewHolder(view);
     }
 
+    /** When a recyclerview item comes into view, we get a viewholder and fill it with information
+     * In this case, a name and a thumbnail picture */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
+        //set the name
         String fullName =
                 StringUtils.capitalizeFirst(mValues.get(position).getData().getUser().getName().getFirst()) +
                 " " +
@@ -78,6 +82,7 @@ public class ContactRecyclerViewAdapter
                 holder.mThumbnailView
         );
 
+        //Set Ripple Effect action
         ((RippleView)holder.mView).setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override
             public void onComplete(RippleView rippleView) {
@@ -115,6 +120,8 @@ public class ContactRecyclerViewAdapter
 
         public ViewHolder(View view) {
             super(view);
+
+            //get ViewHolder UI
             mView = view;
             mThumbnailView = (ImageView) view.findViewById(R.id.iv_profile_pic);
             mContentView = (TextView) view.findViewById(R.id.content);

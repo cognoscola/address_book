@@ -9,7 +9,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,14 +67,16 @@ public class ContactDetailFragment extends Fragment {
         @Override
         public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
-            //only show the view (by changing alpha value) when we are collapsing
-            if (verticalOffset == 0) {
-                bannerImageView.setAlpha(1.0f);
-            }else{
-                if (Math.abs(verticalOffset) > 255) {
-                    bannerImageView.setAlpha( (0.0f));
+            if (bannerImageView != null) {
+                //only show the view (by changing alpha value) when we are collapsing
+                if (verticalOffset == 0) {
+                    bannerImageView.setAlpha(1.0f);
                 }else{
-                    bannerImageView.setAlpha( (float) ((1.0 - (float)(Math.abs(verticalOffset)/255.0))));
+                    if (Math.abs(verticalOffset) > 255) {
+                        bannerImageView.setAlpha( (0.0f));
+                    }else{
+                        bannerImageView.setAlpha( (float) ((1.0 - (float)(Math.abs(verticalOffset)/255.0))));
+                    }
                 }
             }
         }
@@ -97,6 +98,8 @@ public class ContactDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /* Check if we have proper data to look up a contact
+        * otherwise notify user that something went wrong */
         if (getArguments().containsKey(ARG_ITEM_ID)) {
                 itemId = getArguments().getString(ARG_ITEM_ID);
 
@@ -107,12 +110,10 @@ public class ContactDetailFragment extends Fragment {
 
                     //configure the views in the parent activity
                     configureParentActivityViews();
-
                 }
             }else{
                 Activity activity = this.getActivity();
                 Toast.makeText(activity,"Oops, Something went wrong!", Toast.LENGTH_LONG).show();
-                getActivity().onBackPressed();
             }
         }
     }
@@ -131,41 +132,47 @@ public class ContactDetailFragment extends Fragment {
      */
     private void configureParentActivityViews(){
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) ((Activity)context).findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null) {
+        if (appBarLayout != null && mItem != null) {
             appBarLayout.setTitle(StringUtils.capitalizeFirst(mItem.getData().getUser().getName().getFirst()));
         }
 
         bannerImageView= (ImageView) ((Activity)context).findViewById(R.id.contact_banner);
         if (bannerImageView != null) {
-            if (imageLoader != null) {
+            if (imageLoader != null && mItem != null) {
                 imageLoader.DisplayImage(mItem.getData().getUser().getPicture().getLarge(), bannerImageView);
             }
         }
 
         //Listen to when the Appbarlayout changes (because we scrolled)
         AppBarLayout layout = (AppBarLayout) ((Activity)context).findViewById(R.id.app_bar);
-        if (layout != null) {
+        if (layout != null && mItem != null) {
             layout.addOnOffsetChangedListener(appBarLayoutListener);
         }
 
         //Launch a SMS intent when the user presses the floating circle
         FloatingActionButton fab = (FloatingActionButton) ((Activity)context).findViewById(R.id.fab);
-        if (fab != null) {
+        if (fab != null ) {
+            if (mItem != null) {
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
-                    smsIntent.setType("vnd.android-dir/mms-sms");
-                    smsIntent.putExtra("address",mItem.getData().getUser().getCell());
-                    startActivity(smsIntent);
-                }
-            });
+                        Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                        smsIntent.setType("vnd.android-dir/mms-sms");
+                        smsIntent.putExtra("address",mItem.getData().getUser().getCell());
+                        startActivity(smsIntent);
+                    }
+                });
+            }else{
+                fab.setVisibility(View.GONE);
+            }
         }
     }
 
 
+    /**
+     * Change contents of UI to contain data from selected contact
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -198,6 +205,7 @@ public class ContactDetailFragment extends Fragment {
         return rootView;
     }
 
+    /** get fragment dependencies **/
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

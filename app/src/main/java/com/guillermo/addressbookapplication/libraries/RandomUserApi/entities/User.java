@@ -17,9 +17,6 @@
 
 package com.guillermo.addressbookapplication.libraries.RandomUserApi.entities;
 
-/**
- * Created by alvaregd on 12/05/16.
- */
 public class User {
 
     private Name name;

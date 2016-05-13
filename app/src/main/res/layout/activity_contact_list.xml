@@ -26,6 +26,16 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <include layout="@layout/contact_list" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:indeterminate="true"
+            android:minHeight="100dip"
+            android:maxHeight="100dip"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"/>
+
     </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

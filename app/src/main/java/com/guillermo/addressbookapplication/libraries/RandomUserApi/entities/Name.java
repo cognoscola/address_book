@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2014 Jose Luis Franconetti
  *
@@ -15,6 +14,7 @@
  * limitations under the License.
  *
  */
+
 package com.guillermo.addressbookapplication.libraries.RandomUserApi.entities;
 
 public class Name {
